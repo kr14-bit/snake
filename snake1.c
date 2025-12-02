@@ -1,6 +1,6 @@
 /*
  * Project: Snake Game (C / ncurses)
- * Team Members: Kelly Ruiz & Jowel [Last Name]
+ * Team Members: Kelly Ruiz & Jowel Martin
  *
  * Note:
  * Each function and major block includes an authorship tag.
@@ -44,13 +44,14 @@ int main(void) {
 
     srand((unsigned int)time(NULL));
 
-    initscr();
-    noecho();
-    curs_set(0);
-    keypad(stdscr, TRUE);
+    initscr();            // Start curses mode
+    noecho();             
+    curs_set(0);          // Hide cursor
+    keypad(stdscr, TRUE); // Enable arrow keys
 
     int final_score, won;
 
+    // Main game loop that allows people to play multiple times
     while (1) {
         play_game(&final_score, &won); 
 
@@ -59,6 +60,7 @@ int main(void) {
         int max_x, max_y;
         getmaxyx(stdscr, max_y, max_x);
 
+        // Displays a message after the game ends with "YOU WIN!" or "GAME OVER!"
         char msg_game_over[20];
         if (won) {
             strcpy(msg_game_over, "YOU WIN!");
@@ -66,12 +68,14 @@ int main(void) {
             strcpy(msg_game_over, "GAME OVER!");
         }
 
+        // Prepare other messages
         char msg_score[50];
         char msg_exit[] = "Press CTRL-C to Exit";
         char msg_play_again[] = "Press SPACE to Play Again";
 
         snprintf(msg_score, sizeof(msg_score), "SCORE: %d", final_score);
 
+        // Displays all the messages centered on the screen
         mvprintw(max_y / 2 - 2, (max_x - (int)strlen(msg_game_over)) / 2, "%s", msg_game_over);
         mvprintw(max_y / 2 - 1, (max_x - (int)strlen(msg_score)) / 2, "%s", msg_score);
         mvprintw(max_y / 2,     (max_x - (int)strlen(msg_play_again)) / 2, "%s", msg_play_again);
@@ -82,14 +86,15 @@ int main(void) {
         // Wait for SPACE (play again). CTRL-C will just kill program.
         int ch;
         while ((ch = getch()) != ' ') {
-            // block until they press space //Jowel
+            // block until they press space 
         }
     }
 
-    // Jowel
+    // Clean up and exit ncurses mode
     endwin();
     return 0;
 }
+//Jowel
 
 // -----------------------------------------------------
 // Helper: place food at a random empty spot
