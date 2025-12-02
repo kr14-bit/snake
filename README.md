@@ -24,7 +24,7 @@ Jowel Martin:
 -Initialized and set up the game
 -Set up the Main()
 
-#Controls
+# Controls
 ↑ - Moves up
 ↓  - Moves Down
 ← - Moves Left
@@ -32,7 +32,7 @@ Jowel Martin:
 Space - restarts game
 Control-c - ends game
 
-#How to Compile
+# How to Compile
 First: 
 gcc snake1.c -o snake1 -lncurses
 Then: 
