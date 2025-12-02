@@ -58,4 +58,49 @@ int main() {
   return 0;
 }
 
+void play_game(int *final_score, int *won) {
+    int max_x, max_y, x, y, food_x, food_y, snake_len = 3;
+    int dx = 1, dy = 0;
+    int snake_x[MAX_LENGTH], snake_y[MAX_LENGTH];
+    int ch, game_over = 0;
+
+    timeout(100);
+    getmaxyx(stdscr, max_y, max_x);
+    
+    // Ensure minimum pit size of 20x20 (22x22 with borders)
+    if (max_x < 22 || max_y < 22) {
+        clear();
+        mvprintw(0, 0, "Terminal too small! Need at least 22x22");
+        refresh();
+        getch();
+        *final_score = 0;
+        *won = 0;
+        return;
+    }
+    
+    // Calculate win condition: half the perimeter of the border
+    int win_length = (max_x + max_y - 4) / 2;
+
+    // Snake with 3 segments (head + 2 body parts)
+    x = max_x / 2;
+    y = max_y / 2;
+    snake_x[0] = x;
+    snake_y[0] = y;
+    snake_x[1] = x - 1;
+    snake_y[1] = y;
+    snake_x[2] = x - 2;
+    snake_y[2] = y;
+
+    srand(time(NULL));
+    do {
+        food_x = rand() % (max_x - 2) + 1;
+        food_y = rand() % (max_y - 2) + 1;
+    } while ((food_x == x && food_y == y) || 
+             (food_x == x - 1 && food_y == y) || 
+             (food_x == x - 2 && food_y == y));
+
+    *won = 0;
+
+    while (!game_over) {
+        clear();
 
