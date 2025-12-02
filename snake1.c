@@ -1,8 +1,23 @@
+/*
+ * Project: Snake Game (C / ncurses)
+ * Team Members: Kelly Ruiz & Jowel [Last Name]
+ *
+ * Note:
+ * Each function and major block includes an authorship tag.
+ */
+
+
 #include <ncurses.h>
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
+
+
+// -----------------------------------------------------
+// Author: Jowel
+// Purpose: Constant definitions and game configuration
+// -----------------------------------------------------
 
 #define SNAKE_CHAR 'O'      // Snake body
 #define FOOD_CHAR  '*'      // Snake food
@@ -18,8 +33,15 @@ void play_game(int *final_score, int *won);
 // -----------------------------------------------------
 // main: handles game loop and "play again" screen
 // -----------------------------------------------------
+/*
+ * Author: Jowel
+ * Function: main
+ * Purpose: Initializes ncurses, runs game loop, displays results,
+ *          and handles play-again logic.
+ */
+
 int main(void) {
-    // Seed RNG once for the whole program
+
     srand((unsigned int)time(NULL));
 
     initscr();
@@ -30,7 +52,7 @@ int main(void) {
     int final_score, won;
 
     while (1) {
-        play_game(&final_score, &won);
+        play_game(&final_score, &won); 
 
         // Show game over / win screen
         clear();
@@ -60,11 +82,11 @@ int main(void) {
         // Wait for SPACE (play again). CTRL-C will just kill program.
         int ch;
         while ((ch = getch()) != ' ') {
-            // block until they press space
+            // block until they press space //Jowel
         }
     }
 
-    // Technically unreachable, but good style:
+    // Jowel
     endwin();
     return 0;
 }
@@ -72,6 +94,12 @@ int main(void) {
 // -----------------------------------------------------
 // Helper: place food at a random empty spot
 // -----------------------------------------------------
+/*
+ * Author: Kelly Ruiz
+ * Function: place_food
+ * Purpose: Randomly generate a food location that does not overlap with the snake.
+ */
+
 static void place_food(int *food_x, int *food_y,
                        int left, int top, int pit_width, int pit_height,
                        int snake_x[], int snake_y[], int length) {
@@ -90,8 +118,15 @@ static void place_food(int *food_x, int *food_y,
 }
 
 // -----------------------------------------------------
-// play_game: runs one full snake game
+// play_game: runs one full snake game 
 // -----------------------------------------------------
+/*
+ * Author: Kelly Ruiz
+ * Function: play_game
+ * Purpose: Runs the full snake game session including movement, drawing,
+ *          collisions, food consumption, and win/lose logic.
+ */
+
 void play_game(int *final_score, int *won) {
     int max_y, max_x;
     getmaxyx(stdscr, max_y, max_x);
@@ -245,7 +280,7 @@ void play_game(int *final_score, int *won) {
         }
     }
 
-    // Score = how many food pieces eaten (length - initial length)
+    // Score = how many food pieces eaten (length - initial length since we start at 3 pieces)
     *final_score = length - 3;
 
     // Put input back to blocking for the "game over" screen in main
